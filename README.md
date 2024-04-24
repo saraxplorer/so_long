@@ -1,5 +1,7 @@
 # so_long
 
+This is a step by step tutorial for very or somewhat beginners in C. 
+
 **Step 1: Download and build the library MLX42**
 
 Google MLX42 and download from github.+ make
@@ -94,6 +96,7 @@ In MLX42, the mlx_image_t is defined.
 g_img->width * g_img->height *sizeof(int): we input height, width through mlx_new_image function.
 
 **Step 4: make a texture in the window**
+
 we will need a .png file with the texture. I downloaded it from github. i am using mlx_load_png and mlx_texture_to_image functions for it.
 ```c
 #include "MLX42/include/MLX42/MLX42.h"
@@ -127,5 +130,61 @@ int32_t main(void)
 	mlx_delete_image(mlx, img);//to avoid memory leaks, possibly
 	mlx_delete_texture(texture);//to avoid memory leaks, possibly
 	mlx_terminate(mlx);
-}```
-The name and location need to be precise. 
+}
+```
+
+The name and location need to be precise.
+
+**Step 5: Make the whole background**
+
+Making the whole background needs to repeatedly use the texture for the whole WIDTH and HEGHT. Here's how we can achieve it.
+
+```c
+#include "MLX42/include/MLX42/MLX42.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <memory.h>
+#define WIDTH 500
+#define HEIGHT 500
+
+void error(void)
+{
+	puts(mlx_strerror(mlx_errno));
+	exit(EXIT_FAILURE);
+}
+
+int32_t main(void)
+{
+	mlx_t	*mlx;
+	mlx = mlx_init(WIDTH, HEIGHT, "GAME", true);
+	if (!mlx)
+		error();
+	mlx_texture_t *texture = mlx_load_png("./images/Grass.png");
+	if (!texture)
+		error();
+	mlx_image_t	*img = mlx_texture_to_image(mlx, texture);
+	if (!img)
+		error();
+	int textureWidth = texture->width;//the width of the .png image
+	int textureHeight = texture->height;//the height of the .png image
+	
+	int y = 0;
+	while (y < HEIGHT) //y will loop untill HEIGHT
+	{
+		int x = 0;
+		while (x < WIDTH)
+		{
+			mlx_image_to_window(mlx, img, x, y);
+			x = x + textureWidth;
+		}
+		y = y + textureHeight;
+	}
+	mlx_loop(mlx);
+	mlx_delete_image(mlx, img);
+	mlx_delete_texture(texture);
+	mlx_terminate(mlx);
+}
+```
+
+
