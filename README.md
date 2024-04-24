@@ -85,8 +85,7 @@ int32_t main(void)
 	mlx_terminate(mlx);
 	return(EXIT_SUCCESS);
 }
-``` c
-
+```
 memset(void *memset(void *ptr, int value, size_t num);
 ptr: A pointer to the memory block to be filled.
 value: The value to be set. This is an integer, typically represented as an unsigned char. 
