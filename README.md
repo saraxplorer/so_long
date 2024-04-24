@@ -93,3 +93,39 @@ So, when using memset, you provide the pointer to the memory block (g_img->pixel
 In MLX42, the mlx_image_t is defined.
 g_img->width * g_img->height *sizeof(int): we input height, width through mlx_new_image function.
 
+**Step 4: make a texture in the window**
+we will need a .png file with the texture. I downloaded it from github. i am using mlx_load_png and mlx_texture_to_image functions for it.
+```c
+#include "MLX42/include/MLX42/MLX42.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <memory.h>
+#define WIDTH 500
+#define HEIGHT 500
+
+static void error(void)
+{
+	puts(mlx_strerror(mlx_errno));
+	exit(EXIT_FAILURE);
+}
+
+int32_t main(void)
+{
+	mlx_t	*mlx;
+	mlx = mlx_init(WIDTH, HEIGHT, "GAME", true);
+	if (!mlx)
+		error();
+	mlx_texture_t *texture = mlx_load_png("./images/Grass.png");// Try to load the file
+	if (!texture)
+		error();
+	mlx_image_t	*img = mlx_texture_to_image(mlx, texture);// Convert texture to a displayable image
+	if (!img)
+		error();
+	mlx_image_to_window(mlx, img, 0, 0);// Display the image
+	mlx_loop(mlx);
+	mlx_delete_image(mlx, img);//to avoid memory leaks, possibly
+	mlx_delete_texture(texture);//to avoid memory leaks, possibly
+	mlx_terminate(mlx);
+}```
+The name and location need to be precise. 
