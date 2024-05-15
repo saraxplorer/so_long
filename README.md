@@ -1,6 +1,6 @@
 # so_long
 
-This is a step by step tutorial for very or somewhat beginners in C. 
+This is a step by step tutorial for beginners to learn using the MLX42 library. 
 
 **Step 1: Download and build the library MLX42**
 
