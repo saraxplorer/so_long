@@ -1,1 +1,9 @@
+Pointer Implementation:
+t_game *game // Declare a pointer to a t_game structure
+game->map = blabla
+The arrow operator is used to access struct member through the pointer.
 
+Structure Variable Implementation:
+t_game game; // Declare a t_game structure variable
+game.map = bla bla
+The dot operator is used to directly access the member of the struct.
