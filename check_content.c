@@ -12,15 +12,6 @@
 
 #include "so_long.h"
 
-void	check_empty(char *map)
-{
-	size_t 	i;
-	
-	i = 0;
-	if(!map[i])
-		error_exit("map is empty");
-}
-
 void	check_empty_line(char *map)
 {
 	size_t	i;
@@ -36,7 +27,7 @@ void	check_empty_line(char *map)
 
 void	check_invalid_content(int i)
 {
-	if(!ft_strchr("PEC01X\n", i))
+	if(!ft_strchr("PEC01\n", i))
 		error_exit("Invalid character found");
 }
 
