@@ -124,6 +124,7 @@ t_game	map_to_data(char *argv)
 		error_exit("cannot convert map to data");
 	free(map_str);
 	height = check_map_shape(map_array);
+	check_path(map_array, height);
 	game = initialize_game_struct(map_array, height);
 	check_walls(&game);
 	return (game);
