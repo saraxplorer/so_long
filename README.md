@@ -8,8 +8,9 @@ Google MLX42 and download from github.+ make
 
 **Step 2: Opening a window**
 
+
 #X window system: commonly known as X11 or simply X, is a windowing system that provides a graphical user interface for Unix-based operating systems, allowing users to interact with programs through graphical elements like windows, buttons, and menus.
-#data types: The data types we are seeing here like mlx_t, mlx_image_t are structs defined inside the library. For example, in the location MLX42/include/MLX42
+#data types: The data types we are seeing here like mlx_t, mlx_image_t are structs defined inside the library. in the location MLX42/include/MLX42
 /MLX42.h a million things are defined there. 
 ```c
 typedef struct mlx_image
@@ -24,8 +25,21 @@ typedef struct mlx_image
 }	mlx_image_t;
 ```
 #MLX_INIT
-The mlx_t* mlx_init(int32_t width, int32_t height, const char* title, bool resize) function sets up a connection between our program and the X window system. This connection is necessary for our program to be able to interact with the windowing system and display graphical elements on the screen. Once the connection is established, our program can create windows, handle user input, and perform other graphical operations using the functions provided by the mlx library. mlx_init() returns a pointer to an opaque structure that represents the connection. That pointer can then be passed to other MLX42 functions that require a connection to the X server. They'll know exactly what window instance they should be working with.
-Because mlx_init returns a pointer to the window instance, that will be used by other MLX42 functions.
+The mlx_t* mlx_init(int32_t width, int32_t height, const char* title, bool resize) 
+
+Initializes a new MLX42 Instance.
+
+Parameters:
+width – The width of the window.
+height – The height of the window.
+title – The title of the window.
+resize – Enable window resizing.
+
+Returns:
+Ptr to the MLX handle or null on failure.
+
+This function sets up a connection between our program and the X window system. This connection is necessary for our program to be able to interact with the windowing system and display graphical elements on the screen. Once the connection is established, our program can create windows, handle user input, and perform other graphical operations using the functions provided by the mlx library. mlx_init() returns a pointer to an opaque structure that represents the connection. That pointer can then be passed to other MLX42 functions that require a connection to the X server. They'll know exactly what window instance they should be working with.
+
 
 #MLX_LOOP
 The void mlx_loop(mlx_t* mlx) function only takes a pointer to our window connection and starts an infinite loop that continuously waits for events to occur in the X window system. 
@@ -81,7 +95,7 @@ int32_t main(void)
 	if (!mlx)
 		exit(EXIT_FAILURE);
 	g_img = mlx_new_image(mlx, 230, 230);//Create a 230x230 image.
-	memset(g_img->pixels, 255, g_img->width * g_img->height *sizeof(int));//lot going on
+	memset(g_img->pixels, 255, g_img->width * g_img->height *sizeof(int));
 	mlx_image_to_window(mlx, g_img, 0, 0);// Draw the image at coordinate (0, 0).
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
