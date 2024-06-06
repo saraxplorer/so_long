@@ -214,4 +214,134 @@ Development steps:
 6.  Use ft_split to break the string map at the newline char into array of strings(or map lines in this case). now we have pointer to pointer to the lines. They can be used as grid(x, y)!
 7.  Make sure map shape is rectangular and while we are at it we can get the height cause it will be the number of lines!
 8.  Make sure the path is correct for playing i.e. walls not surrounding player/collectable/exit. for this, we make a temporary struct. This struct will be same as game struct. Members of the struct are- collectables, height, weidth, grid, player_x position player_y position ans exit_x position. To make a copy of the map in the temporary struct, we allocate memory for "height" numbers because it is the number of lines.Then we populate it line by line with ft_strdup. All othe r variables need to be assigned using functions like element_position and collectables_num.
-9.  Now we do the path check from the temp map. 
+9.  Now we do the path check from the temp map. Here comes a new concept of 2D path checking(similar to flood fill) which I will describe. example map:
+```c
+11111
+100C1
+1P0E1
+11111
+```
+and this is the relevant code
+```c
+void	check_path_all(t_game *temp, int y, int x)
+{
+	if (temp->grid[y][x] == '1')
+		return ;
+	if (temp->grid[y][x] == 'E')
+		temp->exit_x = 1;
+	if (temp->grid[y][x] == 'C')
+		temp->geld--;
+	temp->grid[y][x] = '1';
+	check_path_all(temp, y + 1, x);
+	check_path_all(temp, y - 1, x);
+	check_path_all(temp, y, x + 1);
+	check_path_all(temp, y, x - 1);
+}
+
+void	check_path(char **map, int height)
+{
+	t_game	temp;
+
+	temp = temp_game(map, height);
+	check_path_all(&temp, temp.player_y, temp.player_x);
+	if (temp.exit_x != 1 || temp.geld != 0)
+	{
+		free_map(map, height);
+		free_map(temp.grid, temp.height);
+		error_exit("path not valid");
+	}
+	free_map(temp.grid, temp.height);
+}
+```
+9.1. Start at the position of the player (marked as 'P').
+
+9.2. Move down if possible (if the position below is not a wall '1').
+
+9.3. If the position below is clear ('0'), mark it as visited ('1') and move to that position.
+
+9.4. Repeat steps 2-3 recursively until reaching the bottom or hitting a wall.
+
+9.5. If there are no more positions to move downward, move upward if possible (if the position above is not a wall '1').
+
+9.6. Repeat steps 3-5 recursively until reaching the top or hitting a wall.
+
+9.7. Once vertical movements are exhausted, move right if possible (if the position to the right is not a wall '1').
+
+9.8. Repeat steps 3-7 recursively until reaching the rightmost edge or hitting a wall.
+
+9.9. Once rightward movements are exhausted, move left if possible (if the position to the left is not a wall '1').
+
+9.10. Repeat steps 3-9 recursively until reaching the leftmost edge or hitting a wall.
+
+9.11. During each step, check if the current position contains a special marker:
+	a. If it's the exit ('E'), set a flag to indicate that the exit has been found.
+	b. If it's a coin ('C'), decrement the coin count.
+ 
+9.12. Continue until all reachable positions have been visited.
+Lets' put some visualizations in. 
+
+Initial Map:
+
+```C
+11111
+100C1
+1P0E1
+11111
+```
+Step 1: Go downward from 'P' until blocked by a wall or bottom.
+
+```C
+11111
+100C1
+110E1
+11111
+```
+Step 2: Go upward from the last visited position until blocked by a wall or top.
+
+```C
+11111
+110C1
+110E1
+11111
+```
+Step 3: Go rightward from the last visited position until blocked by a wall or edge.
+
+```C
+11111
+111C1
+110E1
+11111
+```
+Step 4: Go leftward from the last visited position until blocked by a wall or edge.
+
+```C
+11111
+111C1
+110E1
+11111
+```
+Step 5: Backtrack to the previous position, explore downward until blocked by a wall or bottom.
+
+```C
+11111
+111C1
+111E1
+11111
+```
+Step 6: Backtrack to the previous position, explore upward until blocked by a wall or top.
+
+```C
+11111
+11111
+111E1
+11111
+```
+Step 7: Recursion completes, all reachable positions marked as '1'.
+
+```C
+11111
+11111
+11111
+11111
+```
+
