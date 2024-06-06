@@ -1,5 +1,9 @@
 # so_long
 
+1. General Guide
+2. Development steps of the actual code with some expalanations
+
+***GENERAL GUIDE/Try First***
 This is a step by step tutorial for beginners to learn using the MLX42 library. 
 
 **Step 1: Download and build the library MLX42**
@@ -75,7 +79,7 @@ dl -> Dynamically loaded (DL)
 glfw -> Graphics Library Framework
 m -> Math library
 
-**Step 3: Making a image inside the window**
+**Step 3: Making an image inside the window**
 
 ``` c
 #include "MLX42/include/MLX42/MLX42.h"
@@ -201,4 +205,13 @@ int32_t main(void)
 }
 ```
 
-
+Development steps:
+1. Make sure if there is a map inputted and only one map
+2. Make sure that the map is .ber and not in other format
+3. read the map with get_next_line function. For this we need open function. This function returns a unique fd(starting from 3). We keep readind line by line and store it as a pointer to char. we have now the map as a str.
+4. Now we check if there is an empty line in the string by checking for either a newline at the very beginning or two consecutive newlines(meaning one empty line)
+5.  Check contents and their numbers according to subject requirements. Use ft_strchr to find the first occurance of an unwanted/invalid char in the map
+6.  Use ft_split to break the string map at the newline char into array of strings(or map lines in this case). now we have pointer to pointer to the lines. They can be used as grid(x, y)!
+7.  Make sure map shape is rectangular and while we are at it we can get the height cause it will be the number of lines!
+8.  Make sure the path is correct for playing i.e. walls not surrounding player/collectable/exit. for this, we make a temporary struct. This struct will be same as game struct. Members of the struct are- collectables, height, weidth, grid, player_x position player_y position ans exit_x position. To make a copy of the map in the temporary struct, we allocate memory for "height" numbers because it is the number of lines.Then we populate it line by line with ft_strdup. All othe r variables need to be assigned using functions like element_position and collectables_num.
+9.  Now we do the path check from the temp map. 
