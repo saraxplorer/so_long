@@ -46,6 +46,7 @@ void	check_empty_line(char *map);
 void	check_content(char *map);
 int		check_map_shape(char **map_array);
 void	check_walls(t_game *game);
+void	check_path(char **map, int height);
 
 void	element_position(char **map, t_game *game);
 
@@ -74,13 +75,6 @@ void	finish_game_checker(t_game *game);
 t_game	*collect_checker(int y, int x, t_game *game);
 
 void	free_map(char **map, int height);
-
-// size_t	row_count(char **grid);
-// size_t	count_rupees(t_game *game);
-// size_t	get_link_pos(t_game *game, char c );
-// size_t	get_exit_pos(t_game *game, char c);
-
-
 
 
 #endif
