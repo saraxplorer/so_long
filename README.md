@@ -344,4 +344,75 @@ Step 7: Recursion completes, all reachable positions marked as '1'.
 11111
 11111
 ```
+10. Initialize game like we did for temp
+11. Check walls
+12.  mlx_t *mlx_init(int32_t width, int32_t height, const char *title, bool resize)
 
+**Initializes a new MLX42 Instance /environment**
+
+Parameters:
+width – The width of the window.
+height – The height of the window.
+title – name of the game.
+resize – Enable window resizing.
+
+
+Returns:
+Ptr to the MLX handle or null on failure.
+
+13. mlx_texture_t *mlx_load_png(const char *path)
+
+**load a PNG file into a buffer.**
+
+Parameters:
+path – Path to the PNG file.
+
+Returns:
+If successful the texture data is returned, else NULL.
+
+14. mlx_image_t *mlx_texture_to_image(mlx_t *mlx, mlx_texture_t *texture)
+**Converts a given texture to an image**
+
+Parameters:
+mlx – The MLX instance handle.
+texture – The texture to use to create the image from.
+
+Returns:
+mlx_image_t* The image created from the texture.
+
+15. void mlx_delete_texture(mlx_texture_t *texture)
+**Deletes a texture by freeing its allocated data.**
+
+Parameters:
+texture – The texture to free.
+
+16. int32_t mlx_image_to_window(mlx_t *mlx, mlx_image_t *img, int32_t x, int32_t y)
+**Draws a new (instance of) an image, it will then share the same pixel buffer as the image. NOTE: Keep in mind that the instance array gets reallocated, try to store the return value to the instance! NOT the pointer! It will become invalid! WARNING: Try to display as few images on the window as possible, drawing too many images will cause a loss in performance!
+
+Parameters:
+mlx – The MLX instance handle.
+img – The image to draw on the screen.
+x – The X position.
+y – The Y position.
+
+Returns:
+Index to the instance, or -1 on failure.
+
+17. void mlx_key_hook(mlx_t *mlx, mlx_keyfunc func, void *param)
+**This function sets the key callback, which is called when a key is pressed on the keyboard. Useful for single keypress detection.**
+
+Parameters:
+mlx – The MLX instance handle.
+func – The keypress callback function(!)
+param – An additional optional parameter.
+
+mlx_keyfunc is === mlx_key_data_t in my code
+typedef struct mlx_key_data 
+mlx_key_data_t
+Key function callback data. Data related to the mlx_key_hook function
+
+Parameters:
+key – The key that was pressed.
+action – The action that was done with the key.
+os_key – The os_key is unique for every key, and will have a different value/keycode depending on the platform. They may be consistent on different platforms.
+modifier – The modifier key that was pressed, 0 if no key was pressed.
