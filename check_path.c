@@ -6,7 +6,7 @@
 /*   By: rshaheen <rshaheen@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 18:35:03 by rshaheen      #+#    #+#                 */
-/*   Updated: 2024/06/06 13:12:50 by rshaheen      ########   odam.nl         */
+/*   Updated: 2024/06/10 16:09:46 by rshaheen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,13 @@ t_game	temp_game(char **map, int height)
 	temp.height = height;
 	temp.grid = (char **)ft_calloc(height, sizeof(char *));
 	if (temp.grid == NULL)
-	{
-		free_map(map, height);
-		free_map(temp.grid, temp.height);
-		error_exit("Memory allocation fail");
-	}
+		error_exit("Memory allocation failed during path checking");
 	i = 0;
 	while (i < height)
 	{
 		temp.grid[i] = ft_strdup(map[i]);
+		if (temp. grid[i] == NULL)
+			error_exit("ft_strdup failed during path checking");
 		i++;
 	}
 	return (temp);

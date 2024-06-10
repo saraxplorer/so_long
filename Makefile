@@ -6,7 +6,7 @@
 #    By: rshaheen <rshaheen@student.42.fr>            +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/05/03 15:27:19 by rshaheen      #+#    #+#                  #
-#    Updated: 2024/06/03 17:40:34 by rshaheen      ########   odam.nl          #
+#    Updated: 2024/06/10 17:48:50 by rshaheen      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,15 +34,19 @@ SOURCE = main.c \
 		hook_moves.c \
 		checker.c \
 		free_map.c \
+		check_path.c
 
 			
 
 OBJECTS = $(SOURCE:%.c=$(OBJ_DIR)/%.o)
 
-all: $(MLXLIB) $(NAME)
+all: $(LIBMLX) $(MLXLIB) $(NAME)
 
-$(MLXLIB):
-	@cmake $(LIBMLX) -DEBUG=1 -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+$(LIBMLX):
+	git clone https://github.com/codam-coding-college/MLX42.git && \
+	cd MLX42 && \
+	cmake -B build && \
+	cmake --build build -j4
 
 $(LIBFT):
 	@$(MAKE) -C ./libft

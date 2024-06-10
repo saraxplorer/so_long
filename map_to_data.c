@@ -6,7 +6,7 @@
 /*   By: rshaheen <rshaheen@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/03 16:33:11 by rshaheen      #+#    #+#                 */
-/*   Updated: 2024/06/03 18:16:22 by rshaheen      ########   odam.nl         */
+/*   Updated: 2024/06/10 15:32:49 by rshaheen      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*read_map(char *map)
 	char	*line;
 	char	*map_str;
 	char	*temp;
-	
+
 	fd = open(map, O_RDONLY);
 	if (fd == -1)
 		error_exit("Problem opening file");
@@ -32,7 +32,7 @@ char	*read_map(char *map)
 	{
 		map_str = ft_strjoin(temp, line);
 		if (map_str == NULL)
-			return(free(temp), NULL);
+			return (free(temp), free(line), NULL);
 		free(line);
 		line = get_next_line(fd);
 		free(temp);
@@ -43,16 +43,16 @@ char	*read_map(char *map)
 
 int	collectables_num(char **map)
 {
-	int line;
-	int letter;
+	int	line;
+	int	letter;
 	int	collectable;
-	
+
 	collectable = 0;
 	line = 0;
-	while(map[line]!= NULL)
+	while (map[line] != NULL)
 	{
 		letter = 0;
-		while(map[line][letter]!='\0')
+		while (map[line][letter] != '\0')
 		{
 			if (map[line][letter] == 'C')
 				collectable++;
@@ -91,7 +91,6 @@ void	element_position(char **map, t_game *game)
 	return ;
 }
 
-
 t_game	initialize_game_struct(char **grid, int height)
 {
 	t_game	game;
@@ -102,7 +101,6 @@ t_game	initialize_game_struct(char **grid, int height)
 	element_position(grid, &game);
 	game.width = ft_strlen(grid[0]);
 	game.height = height;
-
 	return (game);
 }
 
@@ -112,11 +110,10 @@ t_game	map_to_data(char *argv)
 	char	*map_str;
 	char	**map_array;
 	int		height;
-	
+
 	map_str = read_map(argv);
 	if (!map_str)
 		error_exit("Failed to read map");
-	check_empty(map_str);
 	check_empty_line(map_str);
 	check_content(map_str);
 	map_array = ft_split(map_str, '\n');
