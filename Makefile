@@ -48,6 +48,9 @@ $(LIBMLX):
 	cmake -B build && \
 	cmake --build build -j4
 
+$(MLXLIB):
+	@cmake $(LIBMLX) -DDEBUG=1 -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+
 $(LIBFT):
 	@$(MAKE) -C ./libft
 
